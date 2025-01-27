@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Serviço PostgreSQL
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres_network
+
+  # Serviço pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    networks:
+      - postgres_network
+    depends_on:
+      - postgres
+
+  # Serviço Metabase
+  metabase:
+    image: metabase/metabase
+    container_name: metabase
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: mydb
+      MB_DB_PORT: 5432
+      MB_DB_USER: admin
+      MB_DB_PASS: admin123
+      MB_DB_HOST: postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - postgres_network
+    depends_on:
+      - postgres
+
+networks:
+  postgres_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

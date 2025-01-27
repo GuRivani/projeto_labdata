@@ -1,0 +1,25 @@
+venv/
+__pycache__/
+*.pyc
+
+# Arquivos de configuração de IDEs
+.vscode/
+.idea/
+
+# Arquivos de configuração do Docker
+*.log
+*.pid
+*.sock
+
+# Arquivos de banco de dados e cache do PostgreSQL
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos do Docker (caso tenha volume persistente configurado para o banco)
+docker-compose.override.yml
+postgres_data/
+
+# Arquivos temporários e de sistema
+.DS_Store    # MacOS
+Thumbs.db    # Windows
